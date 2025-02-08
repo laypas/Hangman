@@ -31,9 +31,7 @@ def select_word():
 
 
 def host_respons(word, char): # word = list of chars, char = players guess as a char
-
     desplay_string = []
-
     for i in range(0, len(word)):
         if word[i] == char:
             desplay_string.append(char)
@@ -41,11 +39,9 @@ def host_respons(word, char): # word = list of chars, char = players guess as a 
             desplay_string.append("_ ") 
     return(desplay_string)
 
-def merge_lists(list1, list2):
-    #list1 = ['F', '_ ', '_ ', '_ ', '_ ', '_ ', '_ ']
-    # = ['_', 'E ', '_ ', '_ ', '_ ', '_ ', '_ ']
-    list3 = []
 
+def merge_lists(list1, list2):
+    list3 = []
     for i in range(len(list1)): 
             if list1[i] != '_ ':
                 list3.append(list1[i])
@@ -56,8 +52,26 @@ def merge_lists(list1, list2):
     return(list3)
 
 
+def num_of_char_matches(list1, list2):
+    s = 0
+    for i in range(len(list1)):
+        if list1[i] in list2:
+            s = s + 1
+        else:
+            s = s + 0 
+    num_of_matches = s
+    return(num_of_matches)
+
+
+def player_won(list):
+    for char in list:
+        if char == '_ ':
+            return(False)
+    return(True)
+
+
 def main():
-    # Select hangman word
+    # Select Hangman word
     print("------randomly selected word--------")
     word = select_word()
     print(word)
@@ -66,34 +80,47 @@ def main():
     wordchars = list(word)
     print(wordchars)
 
-    print(len(wordchars)) #prints the last element in the list (index = 7)
-    #print(wordchars[-1]) #prints the last letter in the list (value = "R")
-
 
     # User input, player starts guessing
-
     desplay_word  = host_respons(word, "")
-    print("-----desplay_word---------------------") 
+    print("-----desplay_word----------------------------------------") 
     print(f"The word is? : {desplay_word}")
 
-
     players_guesses = []
-    for i in range(8):  # max 8 guesses
-        num = i +1
+    num_left = 8
+    num = 0
 
-        print("-----player guess---------------------") 
+    while num_left > 0:
+        num = num + 1
+        print("-----player guess------------------------------------------") 
         item = input(f"Your guesse no {num}. Please write a letter: ")
         players_guesses.append(item.upper())
 
         print("-----host responds with desplay string---------------------") 
-        print(f"Your geusses: {players_guesses}")
-        print(players_guesses[i])
+        print(f"Your guesses: {players_guesses}")
 
-        print("-----desplay of the word with correct guesses---------------------") 
+        print("-----desplay of the word with correct guesses--------------") 
         saved_result = host_respons(word, item.upper())
-        #print(saved_result)
         
         desplay_word = merge_lists(desplay_word, saved_result)
         print(desplay_word)
 
-main()
+        print("-----num of guesses----------------------------------------") 
+        num_correct = num_of_char_matches(players_guesses,desplay_word)
+        num_wrong = len(players_guesses)-num_correct
+        
+        print("num correct guess:", num_correct)
+        print("num wrong guess:", num_wrong)
+
+        num_left = 8 - (len(players_guesses)-num_correct)
+        print("num guesses left:", num_left)
+
+        if player_won(desplay_word):
+            break
+    if num_left > 0:
+        print(f"YOU WIN THE GAME!!! YOU ARE AWSOME!!! 😍")
+    else:
+        print(f"YOU LOST THE GAME! THE END! 😵")
+   
+if __name__ == '__main__':
+    main()
