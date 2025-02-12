@@ -37,7 +37,7 @@ A simple Hangman game built with Python (Flask) and HTML for a vocational univer
 
 ## Project Structure
 ```
-hangman-game/                    # Root directory
+hangman-game/               # Root directory
 ├── README.md               # The main README file
 ├── Hangman.py              # Core game logic (functions etc.)
 ├── HangApp.py              # Flask application (routing, handling requests)
