@@ -15,7 +15,7 @@
         Skapa ett nytt repository på GitHub för ditt projekt. 
         Lägg till en README-fil med instruktioner för hur man använder programmet eller spelar spelet.
         Lägg till en .gitignore-fil för att exkludera onödiga filer från versionhantering. 
-        Förslagsvis innehållande namnet på ditt virtual environement exempelvis (heter det venv har du venv/ på en rad i .gitignore)
+        Förslagsvis innehållande namnet på ditt virtual environement exempelvis (heter det venv har du  på en rad i .gitignore)
         Pusha alla filer till ditt repository på GitHub.
         Lämna in en länk till ditt repository.
 """

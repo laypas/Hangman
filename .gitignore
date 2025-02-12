@@ -1,5 +1,5 @@
-HangmanRules.dm
+venv/
+__pycache__
 test.py
 test.html
-test2.html
-
+HangmanRules.dm

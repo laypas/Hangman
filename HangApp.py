@@ -5,29 +5,40 @@ from Hangman import select_word, host_respons,merge_lists, num_of_char_matches, 
 
 app = Flask(__name__)
 
-word = list(select_word())
-players_guesses = []
-display_word = host_respons(word, "")
+def reset_game_word():
+    global word
+    global display_word
+    global players_guesses
+
+    word = list(select_word())
+    display_word = host_respons(word, "")
+    players_guesses = []
+
+reset_game_word()
 
 @app.route("/", methods=["POST", "GET"])
 def home():
     global display_word
-    print(request.form)
+    global players_guesses
+
+    print("selected word:")
     print(word)
+
+    print("players guess:")
+    print(request.form)
     print(players_guesses)
+
+    print("display word: before guess:")
     print(display_word)
 
     if request.form:
         for c in request.form:
             players_guesses.append(c)
-            print(players_guesses)
-
             saved_result = host_respons(word, c.upper())
-            print(saved_result)
 
+            print("display word: after guess:")
             display_word = (merge_lists(display_word, saved_result))
             print(display_word)
-
 
     num_correct = num_of_char_matches(players_guesses,display_word)
     num_wrong   = len(players_guesses) - num_correct
@@ -45,18 +56,13 @@ def home():
 
 @app.route("/images/<path:path>")
 def send_report(path):
-    return send_from_directory("C:\\Images", path)
+    return send_from_directory("images", path)
 
 @app.route("/reset", methods=["GET"])
 def resetgame():
-    global players_guesses
-    players_guesses = []
-
-    global display_word
-    display_word = host_respons(word, "")
+    reset_game_word()
     return redirect("/")
 
- 
 if __name__ == "__main__":
     app.run(debug=True)
 
