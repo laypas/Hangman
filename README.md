@@ -1,12 +1,12 @@
 # Hangman Game
-A simple Hangman game built with Python (Flask) and HTML for  for a vocational university project. This project provided practical experience in building a web application with a Python backend.
+A simple Hangman game built with Python (Flask) and HTML for a vocational university project. This project provided practical experience in building a web application with a Python backend.
 
 
 ## How to Run Locally
 1.  **Clone the repository:**
     ```bash
     git clone https://github.com/laypas/hangman-game.git
-    cd Hangman
+    cd hangman-game
     ```
 
 2.  **Set up Python Environment (if needed):**
@@ -36,10 +36,11 @@ A simple Hangman game built with Python (Flask) and HTML for  for a vocational u
 
 
 ## Project Structure
-
+```
 hangman/                    # Root directory
 ├── README.md               # The main README file
 ├── Hangman.py              # Core game logic (functions, etc.)
 ├── HangApp.py              # Flask application (routing, handling requests)
 ├── templates/              # HTML templates
     └── HangTemp.html       # Main game template
+```
