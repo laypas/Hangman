@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hangman Game</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Prevents scrolling */
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            font-weight: 300;
+            text-align: center;
+            background: url("/images/blue-brick-wall.jpg") no-repeat center center/cover;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Prata', serif;
+            font-weight: 900;
+            margin: 0;
+        }
+
+        h1 {
+            color: #962734;
+            font-size: 2.5rem;
+            text-align: left;
+            padding: 10px;
+        }
+
+        h2 {
+            color: black;
+            text-align: left;
+            padding: 2px;
+        }
+
+        h3 {
+            color: black;
+            font-size: 1.5rem;
+            text-align: left;
+            font-weight: 500;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #game-container {
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: flex-start; /* Align to top */
+            width: 80%;
+            margin: 10px auto;
+            gap: 10px;
+            position: relative; /* For absolute positioning of canvas/scoreboard */
+            padding-top: 20px; /* Moves everything down slightly */
+        }
+
+        #word {
+            font-size: 36px; /* Larger text */
+            font-weight: bold;
+            letter-spacing: 8px;
+            display: block;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 20px 30px 30px #2c3e50;
+            border-radius: 10px;
+            width: 50%; /* As wide as buttons */
+            padding: 15px;
+            margin-top: 200px;
+            margin-bottom: 10px;
+            margin-left: auto;
+            margin-right: auto;
+            letter-spacing: 0.4em; /* Adjust spacing between dashes */
+            text-align: center; /* Center the dashes */
+        }
+
+        #hangmanCanvas {
+            width: 350px;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 20px 30px 30px #2c3e50;
+            background: rgba(255, 255, 255, 0.9);
+            position: absolute;
+            top: 220px; 
+            left: 50px;
+        }
+
+        #hangmanCanvas {
+            left: 0px; /* Position canvas on the left */
+        }
+
+        #scoreboard {
+            position: absolute; /* Ensure it stays in position */
+            right: 0px; /* Position scoreboard on the right */
+            top: 220px; /* Align with the top of the word box */
+            width: 350px;
+            height: 500px;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 20px 30px 30px #2c3e50;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            text-align: left;
+            font-size: 20px;
+        }
+
+        #scoreboard p {
+            margin: 0 0 5px 0; /* Add spacing between rows */
+        }
+
+        #resetButton {
+            width: 250px;
+            height: 70px;
+            margin: 0px;
+            border: none;
+            cursor: pointer;
+            background-color: #962734;
+            border: none;
+            font-size: 32px;
+            font-weight: bold;
+            color: white;
+            border-radius: 8px; /* Slightly more rounded */
+            box-shadow: 0px 6px #2c3e50; /* Slightly deeper shadow */
+            transition: all 0.2s ease;
+        }
+        
+        #resetButton:hover {
+            background: #afdde5;
+        }
+
+        #keyboard-container {
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        #keyboard {
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 500px;
+            margin: 20px auto;
+            justify-content: center;
+        }
+
+        .key {
+            width: 70px;
+            height: 70px;
+            margin: 5px;
+            background: #962734;
+            border: none;
+            cursor: pointer;
+            font-size: 32px;
+            font-weight: bold;
+            color: white;
+            border-radius: 8px; /* Slightly more rounded */
+            box-shadow: 0px 6px #2c3e50; /* Slightly deeper shadow */
+            transition: all 0.2s ease;
+        }
+
+        .key:hover {
+            background: #afdde5;
+        }
+
+        .key:active {
+            box-shadow: 0px 2px #2c3e50;
+            transform: translateY(3px);
+        }
+
+        .disabled {
+            background: #0fa4af;
+            cursor: not-allowed;
+            box-shadow: none;
+
+        #incorrect {
+            color: #962734;
+        }
+
+
+        
+    </style>
+</head>
+<body>
+
+    <h1>Lab1, Vt-2025</h1>
+    
+    <div id="game-container">
+        <!-- Hangman Drawing Area (Left) -->
+        <canvas id="hangmanCanvas" width="350" height="500"></canvas>
+        
+        <!-- Keyboard Buttons (Center) -->
+        <div id="keyboard-container">
+            <p id="word">{% for w in word %} {{w}} {% endfor %}</p>
+            <form id="keyboard" action="" method="post"></form>
+        </div>
+
+        <!-- Scoreboard (Right) -->
+        <div id="scoreboard">
+            <p><h1>Hangman Game<br>Score Board</br></h1></p>
+            <h2>{% if player_won %} YOU WIN! YOU'RE A WORD ANIMAL! 🐾 {% endif %}</h2>
+            <h2>{% if player_lost %} GAME OVER! BUT DON'T BE A SCAREDY-CAT! 🙀 {% endif %}</h2>
+            <p id="incorrect"><h3>Incorrect guesses: <span id="mistakes">{{num_wrong}}</span> / 8</h3></p>
+            <p><h3>Score: {{num_correct}}</h3></p>
+            <p><h3>Guesses Left: {{num_left}}</h3></p>
+            
+            <button id="resetButton" onclick="redirectToReset()">Reset Game</button>
+            <p><h2></h2></p>
+            <p><h3>Hint: These words are wild! Think of the zoo, the farm, the woods or the jungle.</h3></p>
+        </div>
+    </div>
+
+
+    <script>
+
+        function createKeyboard() {
+            const keyboardDiv = document.getElementById("keyboard");
+            keyboardDiv.innerHTML = "";
+            const players_guesses = { {% for e in players_guesses %} {{e}}:1, {% endfor %} };
+            const player_lost = {% if player_lost %}true {%else%}false {% endif %};
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").forEach(letter => {
+                let button = document.createElement("button");
+                button.textContent = letter;
+                button.name = letter;
+                button.classList.add("key");
+            if(players_guesses[letter] || player_lost){
+                    button.classList.add("disabled");
+                    button.disabled = true;
+                }
+                button.onclick = () => handleGuess(letter, button);
+                keyboardDiv.appendChild(button);
+            });
+        }
+
+        function handleGuess(letter, button) {
+            document.getElementById("keyboard").submit()
+        }
+
+        function redirectToReset() {
+            window.location.href = "/reset";
+        }
+        
+        function drawHangman(ctx, incorrectGuesses) {
+            const { width: canvasWidth, height: canvasHeight } = ctx.canvas.getBoundingClientRect();
+           
+            ctx.lineWidth = 14;
+            ctx.strokeStyle = "black";
+            ctx.lineCap = "round";
+            ctx.lineJoin = "round";
+
+            // Initial drawing
+            if (incorrectGuesses === 0) {
+                return;
+            }
+
+            // Clear the canvas for redrawing
+            ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+            // Redraw the gallows post and base (it was cleared)
+            ctx.beginPath();
+            ctx.moveTo(canvasWidth * 0.15, canvasHeight * 0.1); // Top of vertical post
+            ctx.lineTo(canvasWidth * 0.15, canvasHeight * 0.7); // Bottom of vertical post
+            ctx.moveTo(canvasWidth * 0.05, canvasHeight * 0.7); // Start of gallows base
+            ctx.lineTo(canvasWidth * 0.35, canvasHeight * 0.7); // End of gallows base
+            ctx.moveTo(canvasWidth * 0.15, canvasHeight * 0.25); // Top of vertical post (start of brace)
+            ctx.lineTo(canvasWidth * 0.45, canvasHeight * 0.1); // End point of diagonal brace
+            ctx.stroke();
+
+
+            // Draw the rest of the hangman based on incorrectGuesses
+            if (incorrectGuesses > 0) {
+                // 1. Beam
+                ctx.beginPath();
+                ctx.moveTo(canvasWidth * 0.15, canvasHeight * 0.1); // Top of post
+                ctx.lineTo(canvasWidth * 0.6, canvasHeight * 0.1); // End of beam
+                ctx.stroke();
+            }
+
+            if (incorrectGuesses > 1) {
+                // 3. Head (filled and round)
+                ctx.beginPath();
+                const headCenterX = canvasWidth * 0.6;
+                const headCenterY = canvasHeight * 0.25;
+                const headRadius = Math.min(canvasWidth, canvasHeight) * 0.08;
+                ctx.arc(headCenterX, headCenterY, headRadius, 0, 2 * Math.PI);
+                ctx.fillStyle = "black";
+                ctx.fill();
+                ctx.strokeStyle = "black"; // Ensure stroke is black
+                ctx.stroke();
+                ctx.fillStyle = "black"; // Reset fill style
+            }
+
+            if (incorrectGuesses > 2) {
+                // 4. Body
+                ctx.beginPath();
+                ctx.moveTo(canvasWidth * 0.6, canvasHeight * 0.32); // Below head
+                ctx.lineTo(canvasWidth * 0.6, canvasHeight * 0.55); // To waist
+                ctx.stroke();
+            }
+
+            if (incorrectGuesses > 3) {
+                // 5. Left Arm
+                ctx.beginPath();
+                ctx.moveTo(canvasWidth * 0.6, canvasHeight * 0.36); // Mid-body
+                ctx.lineTo(canvasWidth * 0.45, canvasHeight * 0.42); // Angled arm
+                ctx.stroke();
+            }
+
+            if (incorrectGuesses > 4) {
+                // 6. Right Arm
+                ctx.beginPath();
+                ctx.moveTo(canvasWidth * 0.6, canvasHeight * 0.36); // Mid-body
+                ctx.lineTo(canvasWidth * 0.75, canvasHeight * 0.42); // Angled arm
+                ctx.stroke();
+            }
+
+            if (incorrectGuesses > 5) {
+                // 7. Left Leg
+                ctx.beginPath();
+                ctx.moveTo(canvasWidth * 0.6, canvasHeight * 0.55); // Waist
+                ctx.lineTo(canvasWidth * 0.5, canvasHeight * 0.65); // Angled leg
+                ctx.stroke();
+            }
+
+            if (incorrectGuesses > 6) {
+                // 8. Right Leg
+                ctx.beginPath();
+                ctx.moveTo(canvasWidth * 0.6, canvasHeight * 0.55); // Waist
+                ctx.lineTo(canvasWidth * 0.7, canvasHeight * 0.65); // Angled leg
+                ctx.stroke();
+            }
+
+            if (incorrectGuesses > 7) {
+                // 2. Rope
+                ctx.beginPath();
+                ctx.moveTo(canvasWidth * 0.6, canvasHeight * 0.1); // End of beam
+                ctx.lineTo(canvasWidth * 0.6, canvasHeight * 0.2); // Down to head position
+                ctx.stroke();
+            }
+
+        }
+
+        const mistakesSpan = document.getElementById('mistakes');
+        let num_wrong = {{num_wrong}};
+
+        mistakesSpan.addEventListener('DOMCharacterDataModified', function(event) {
+            num_wrong = parseInt(event.target.textContent);
+            const canvas = document.getElementById('hangmanCanvas');
+            const ctx = canvas.getContext('2d');
+            drawHangman(ctx, num_wrong); // Draw initial state
+        });
+
+        window.addEventListener('DOMContentLoaded', function() {
+            const canvas = document.getElementById('hangmanCanvas');
+            const ctx = canvas.getContext('2d');
+            drawHangman(ctx, num_wrong); // Draw initial state
+   
+        });
+
+        createKeyboard();
+
+    </script>
+
+</body>
+</html>
+
+
+
+
+

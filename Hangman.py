@@ -23,7 +23,7 @@
 import random 
 
 def select_word():
-    wordstr = "Fluffy, Cuddly, Ferrets, Bearded, Lizard, Hamster, Penguin, Coyote, Parrots, Raccoon, Weasels, Stallion, Whiskers,Tailbone, Hooves, Antlers, Paws, Snout, Claws, Muzzle, Furball,Feather, Tentacle, Tusk, Horn, Scales"
+    wordstr = "Fluffy,Cuddly,Ferrets,Lizard,Hamster,Penguin,Coyote,Parrots,Raccoon,Weasels,Stallion,Whiskers,Tailbone,Hooves,Antlers,Paws,Snout,Claws, Muzzle,Furball,Feather,Tentacle,Tusk,Horn,Scales,Zebra,Tiger,Lion,Bear,Deer"
     wordslist = [word.strip().upper() for word in wordstr.split(",")]
 
     random_word = random.choice(wordslist) #random word selection from worldlist
@@ -82,9 +82,9 @@ def main():
 
 
     # User input, player starts guessing
-    desplay_word  = host_respons(word, "")
+    display_word  = host_respons(word, "")
     print("-----desplay_word----------------------------------------") 
-    print(f"The word is? : {desplay_word}")
+    print(f"The word is? : {display_word}")
 
     players_guesses = []
     num_left = 8
@@ -102,11 +102,11 @@ def main():
         print("-----desplay of the word with correct guesses--------------") 
         saved_result = host_respons(word, item.upper())
         
-        desplay_word = merge_lists(desplay_word, saved_result)
-        print(desplay_word)
+        display_word = merge_lists(display_word, saved_result)
+        print(display_word)
 
         print("-----num of guesses----------------------------------------") 
-        num_correct = num_of_char_matches(players_guesses,desplay_word)
+        num_correct = num_of_char_matches(players_guesses,display_word)
         num_wrong = len(players_guesses)-num_correct
         
         print("num correct guess:", num_correct)
@@ -115,10 +115,10 @@ def main():
         num_left = 8 - (len(players_guesses)-num_correct)
         print("num guesses left:", num_left)
 
-        if player_won(desplay_word):
+        if player_won(display_word):
             break
     if num_left > 0:
-        print(f"YOU WIN THE GAME!!! YOU ARE AWSOME!!! 😍")
+        print(f"YOU WON THE GAME!!! YOU ARE AWSOME!!! 😍")
     else:
         print(f"YOU LOST THE GAME! THE END! 😵")
    
