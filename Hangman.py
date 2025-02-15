@@ -1,29 +1,7 @@
-""" 
-#Laborationsinlämning: 23 feb 2025
-#Projekt 1: Hangman
-
-1. Skapa en version av det klassiska spelet Hangman.
-
-    Datorn väljer ett slumpmässigt ord från en fördefinierad lista av ord.
-    Spelet visar hur många bokstäver ordet består av, men inte vilka bokstäver som är rätt.
-    Spelaren ska gissa en bokstav i taget, och datorn ger feedback om bokstaven finns i ordet eller inte.
-    Spelet fortsätter tills spelaren har gissat hela ordet eller har gjort tillräckligt många felaktiga gissningar.
-
-2. Minst 3 commits i Git historik och två olika bransches. All kod och annan dokumentation skall finnas i repository.
-
-    Inlämning av projektet:
-        Skapa ett nytt repository på GitHub för ditt projekt. 
-        Lägg till en README-fil med instruktioner för hur man använder programmet eller spelar spelet.
-        Lägg till en .gitignore-fil för att exkludera onödiga filer från versionhantering. 
-        Förslagsvis innehållande namnet på ditt virtual environement exempelvis (heter det venv har du  på en rad i .gitignore)
-        Pusha alla filer till ditt repository på GitHub.
-        Lämna in en länk till ditt repository.
-"""
-
-import random 
+import random
 
 def select_word():
-    wordstr = "Fluffy,Cuddly,Ferrets,Lizard,Hamster,Penguin,Coyote,Parrots,Raccoon,Weasels,Stallion,Whiskers,Tailbone,Hooves,Antlers,Paws,Snout,Claws, Muzzle,Furball,Feather,Tentacle,Tusk,Horn,Scales,Zebra,Tiger,Lion,Bear,Deer"
+    wordstr = "Fluffy,Cuddly,Ferrets,Lizard,Hamster,Penguin,Coyote,Parrots,Raccoon,Weasels,Stallion,Whiskers,Tailbone,Hooves,Antlers,Paws,Snout,Claws,Muzzle,Furball,Feather,Tentacle,Tusk,Horn,Scales,Zebra,Tiger,Lion,Bear,Deer"
     wordslist = [word.strip().upper() for word in wordstr.split(",")]
 
     random_word = random.choice(wordslist) #random word selection from worldlist

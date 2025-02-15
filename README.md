@@ -13,8 +13,8 @@ A simple Hangman game built with Python (Flask) and HTML for a vocational univer
 
 *   Install the latest version of Python 3
 *   Install VSCode
-*   Create a virtual environment and activate the environment https://flask.palletsprojects.com/en/stable/installation/#create-an-environment
-*   Install Python dependency Flask by using the command "$ pip install Flask", within the activated environment
+*   Create a virtual environment and activate the environment https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/#using-a-requirements-file
+*   Install all declared dependencies by using the command "py -m pip install -r requirements.txt", within the activated environment
 
 3.  **Run the Python server:**
     ```Phyton Terminal
@@ -37,10 +37,13 @@ A simple Hangman game built with Python (Flask) and HTML for a vocational univer
 
 ## Project Structure
 ```
-hangman/                    # Root directory
-├── README.md               # The main README file
-├── Hangman.py              # Core game logic (functions etc.)
-├── HangApp.py              # Flask application (routing, handling requests)
-├── templates/              # HTML templates
-    └── HangTemp.html       # Main game template
+hangman/                        # Root directory
+├── README.md                   # The main README file
+├── requirements.txt            # Requirements file with all declared dependencies
+├── Hangman.py                  # Core game logic (functions etc.)
+├── HangApp.py                  # Flask application (routing, handling requests)
+├── templates/                  # HTML templates
+    └── HangTemp.html           # Main game template
+├── images/                     # Images
+    └── blue-brick-wall.jpg     # Main page background image
 ```
