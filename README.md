@@ -14,7 +14,10 @@ A simple Hangman game built with Python (Flask) and HTML for a vocational univer
 *   Install the latest version of Python 3
 *   Install VSCode
 *   Create a virtual environment and activate the environment https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/#using-a-requirements-file
-*   Install all declared dependencies by using the command "py -m pip install -r requirements.txt", within the activated environment
+*   Install all declared dependencies by using the pip command, within the activated environment
+    ```
+    py -m pip install -r requirements.txt
+    ```
 
 3.  **Run the Python server:**
     ```Phyton Terminal
